@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Abuela Blanca 💜</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lavender: #9b59b6;
+    --lilac: #c39bd3;
+    --light-lilac: #e8d5f5;
+    --cream: #fefaf8;
+    --gold: #c9a84c;
+    --deep: #4a235a;
+    --text: #3b2050;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #f5eef8;
+    font-family: 'EB Garamond', serif;
+    overflow-x: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+
+  /* Fondo papel viejo */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(195,155,211,0.25) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 90%, rgba(155,89,182,0.15) 0%, transparent 55%),
+      linear-gradient(160deg, #f9f2fc 0%, #f0e6f6 100%);
+    z-index: 0;
+  }
+
+  #canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .page {
+    position: relative;
+    z-index: 10;
+    max-width: 660px;
+    width: 100%;
+    background: var(--cream);
+    box-shadow:
+      0 4px 6px rgba(75,0,100,0.06),
+      0 20px 60px rgba(75,0,100,0.12),
+      0 60px 100px rgba(75,0,100,0.06);
+    animation: emerge 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes emerge {
+    from { opacity: 0; transform: translateY(60px) rotateX(5deg); }
+    to   { opacity: 1; transform: translateY(0) rotateX(0); }
+  }
+
+  /* Borde floral superior */
+  .floral-border {
+    height: 14px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--lavender) 0px, var(--lavender) 4px,
+      var(--lilac) 4px, var(--lilac) 8px,
+      var(--gold) 8px, var(--gold) 10px,
+      var(--lilac) 10px, var(--lilac) 14px
+    );
+  }
+
+  /* Header elegante */
+  .header {
+    text-align: center;
+    padding: 44px 50px 32px;
+    border-bottom: 1px solid var(--light-lilac);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(195,155,211,0.12) 0%, transparent 70%);
+  }
+
+  .year-tag {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.5em;
+    color: var(--lilac);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .flower-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 12px;
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 4px 10px rgba(155,89,182,0.3));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+  }
+
+  h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.3rem, 4.5vw, 2rem);
+    font-weight: 400;
+    color: var(--deep);
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  h1 span { color: var(--lavender); }
+
+  .header-sub {
+    font-style: italic;
+    color: var(--lilac);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Ornamento */
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1rem;
+    letter-spacing: 0.5em;
+    padding: 14px 0;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.08), transparent);
+  }
+
+  /* Cuerpo de carta */
+  .letter {
+    padding: 44px 56px 52px;
+  }
+
+  .greeting {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    color: var(--lavender);
+    margin-bottom: 30px;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .greeting::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--light-lilac), transparent);
+  }
+
+  p {
+    color: var(--text);
+    font-size: 1.13rem;
+    line-height: 2;
+    margin-bottom: 24px;
+    text-align: justify;
+    animation: fadeSoft 1.2s ease both;
+  }
+
+  @keyframes fadeSoft {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  p:nth-child(2) { animation-delay: 0.3s; }
+  p:nth-child(3) { animation-delay: 0.5s; }
+  p:nth-child(4) { animation-delay: 0.7s; }
+  p:nth-child(5) { animation-delay: 0.9s; }
+
+  .highlight { color: var(--lavender); font-style: italic; font-weight: 600; }
+  .gold-text { color: var(--gold); }
+
+  /* Poema */
+  .poem-block {
+    margin: 32px 0;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, rgba(195,155,211,0.12), rgba(155,89,182,0.06));
+    border: 1px solid rgba(195,155,211,0.3);
+    border-radius: 1px;
+    position: relative;
+  }
+
+  .poem-block::before {
+    content: '❝';
+    position: absolute;
+    top: -10px; left: 14px;
+    font-size: 2rem;
+    color: var(--lilac);
+    line-height: 1;
+    background: var(--cream);
+    padding: 0 6px;
+  }
+
+  .poem-block p {
+    text-align: center;
+    font-style: italic;
+    color: var(--deep);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 0;
+  }
+
+  /* Firma */
+  .signature-area {
+    margin-top: 40px;
+    padding-top: 24px;
+    position: relative;
+  }
+
+  .sig-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--light-lilac) 30%, var(--light-lilac) 70%, transparent);
+    margin-bottom: 28px;
+  }
+
+  .sig-left {
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--lilac);
+    margin-bottom: 20px;
+  }
+
+  .sig-right {
+    text-align: right;
+  }
+
+  .sig-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.4rem;
+    color: var(--deep);
+    letter-spacing: 0.04em;
+  }
+
+  .sig-name span { color: var(--lavender); }
+
+  .sig-role {
+    font-style: italic;
+    color: var(--lilac);
+    font-size: 0.95rem;
+    margin-top: 4px;
+  }
+
+  /* Footer */
+  .footer {
+    background: linear-gradient(135deg, var(--deep) 0%, #2c1240 100%);
+    padding: 22px;
+    text-align: center;
+  }
+
+  .footer-flowers {
+    font-size: 1.4rem;
+    letter-spacing: 0.3em;
+    display: block;
+    margin-bottom: 8px;
+    animation: flicker 3s ease-in-out infinite;
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.75; }
+  }
+
+  .footer-text {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    color: rgba(195,155,211,0.8);
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 480px) {
+    .letter { padding: 36px 28px 44px; }
+    .header { padding: 36px 28px 28px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<div class="page">
+  <div class="floral-border"></div>
+
+  <div class="header">
+    <span class="year-tag">Día de las Madres · 2025</span>
+    <span class="flower-icon">💜</span>
+    <h1>Para mi <span>Abuela Blanca</span></h1>
+    <div class="header-sub">la sabiduría más dulce que conozco</div>
+  </div>
+
+  <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+  <div class="letter">
+    <div class="greeting">Querida Abuela Blanca</div>
+
+    <p>
+      Hay personas en la vida que llevan la bondad en los huesos, que con solo estar presentes hacen que todo a su alrededor sea más amable, más cálido, más lleno de luz. Tú, abuelita, eres exactamente eso. <span class="highlight">Un regalo que no todos tienen la fortuna de recibir.</span>
+    </p>
+
+    <p>
+      Pienso en todos los años que llevas en este mundo, y me maravillo de todo lo que has visto, vivido y aguantado con la misma serenidad de siempre. Esa tranquilidad que tienes, esa fe que no se dobla, ese amor que das sin medir: son lecciones que ningún libro puede enseñar. <span class="gold-text">Solo la vida de alguien como tú puede transmitirlas.</span>
+    </p>
+
+    <div class="poem-block">
+      <p>
+        Las abuelas guardan en sus manos<br>
+        el tiempo, la memoria y el calor.<br>
+        En cada arruga vive un cuento,<br>
+        en cada abrazo, todo el amor.
+      </p>
+    </div>
+
+    <p>
+      Gracias por cada historia que has compartido, por cada consejo dado a tiempo, por cada sonrisa que aparece en tu cara cuando nos ves. Nosotros somos lo que somos en parte gracias a lo que sembraste. <span class="highlight">Tu legado vive en cada uno de nosotros.</span>
+    </p>
+
+    <p>
+      Hoy, en este día especial, quiero que sepas que eres amada profundamente. Que tu presencia en la familia es <span class="gold-text">irreemplazable e invaluable</span>. Que ojalá puedas sentir todo el cariño que te tienen todos los que te conocen, porque mereces exactamente eso y mucho más.
+    </p>
+
+    <div class="signature-area">
+      <div class="sig-line"></div>
+      <div class="sig-left">Con todo el respeto y amor de tu nieto 💜</div>
+      <div class="sig-right">
+        <div class="sig-name">— <span>Andrés</span></div>
+        <div class="sig-role">Tu nieto que te quiere muchísimo</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-flowers">💜 🌸 💜 🌸 💜</span>
+    <div class="footer-text">Feliz Día de las Madres, Abuela Blanca</div>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const COLORS = ['#9b59b6','#c39bd3','#e8d5f5','#c9a84c','#d7bde2','#a569bd'];
+
+  class Flake {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x = Math.random() * canvas.width;
+      this.y = init ? Math.random() * canvas.height : -10;
+      this.size = 2 + Math.random() * 5;
+      this.speedY = 0.3 + Math.random() * 0.8;
+      this.speedX = (Math.random()-0.5)*0.5;
+      this.swing = Math.random()*Math.PI*2;
+      this.alpha = 0.2 + Math.random()*0.4;
+      this.color = COLORS[Math.floor(Math.random()*COLORS.length)];
+      this.shape = Math.random() < 0.5 ? 'circle' : 'petal';
+      this.angle = Math.random()*Math.PI*2;
+      this.rotSpeed = (Math.random()-0.5)*0.03;
+    }
+    update() {
+      this.swing += 0.015;
+      this.x += this.speedX + Math.sin(this.swing)*0.4;
+      this.y += this.speedY;
+      this.angle += this.rotSpeed;
+      if (this.y > canvas.height+20) this.reset(false);
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      if (this.shape === 'circle') {
+        ctx.arc(0,0,this.size,0,Math.PI*2);
+      } else {
+        ctx.ellipse(0,0,this.size*0.4,this.size,0,0,Math.PI*2);
+      }
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  const flakes = Array.from({length:45}, ()=>new Flake());
+
+  function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    flakes.forEach(f=>{f.update();f.draw();});
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+</body>
+</html>
